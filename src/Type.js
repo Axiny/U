@@ -70,10 +70,4 @@ class Type {
 
 }
 
-var index = {
-
-    Type
-
-};
-
-export { Type, index as default };
+export default Type

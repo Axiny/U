@@ -1,2 +1,12 @@
-export default {}
-export {}
+import Type from "./Type"
+
+export default {
+
+    Type
+
+}
+export {
+
+    Type
+    
+}
