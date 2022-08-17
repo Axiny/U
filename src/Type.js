@@ -68,6 +68,20 @@ class Type {
 
     }
 
+    static isHTMLElement ( p ) {
+
+        if (typeof HTMLElement == 'object') {
+
+            return p instanceof HTMLElement;
+
+        } else {
+
+            return p && typeof p === 'object' && p.nodeType === 1 && typeof p.nodeName === 'string';
+
+        }
+
+    }
+
 }
 
 export default Type
