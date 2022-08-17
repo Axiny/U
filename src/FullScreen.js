@@ -1,3 +1,5 @@
+import Type from "./Type"
+
 class FullScreen {
 
     #static = false;
@@ -5,7 +7,11 @@ class FullScreen {
 
     constructor ( target ) {
 
-        target = target || document.getElementsByTagName('body')[0];
+        if (Type.isHTMLElement(target)) {
+
+            this.#target = target;
+
+        }
 
     }
 

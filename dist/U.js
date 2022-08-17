@@ -399,7 +399,11 @@ class FullScreen {
 
     constructor ( target ) {
 
-        target = target || document.getElementsByTagName('body')[0];
+        if (Type.isHTMLElement(target)) {
+
+            this.#target = target;
+
+        }
 
     }
 
