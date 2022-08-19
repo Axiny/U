@@ -3,6 +3,8 @@ import Fetch from "./Fetch"
 import FileLoader from "./FileLoader"
 import FullScreen from "./FullScreen"
 
+import radomBoolean from "./radomBoolean"
+
 import { tokebabCase } from "./String/index"
 import { dateFormat } from "./Date/index"
 
@@ -12,6 +14,8 @@ export default {
     FileLoader,
     FullScreen,
     Type,
+
+    radomBoolean,
 
     Date : {
 
@@ -29,11 +33,12 @@ export default {
 
 export {
 
+    dateFormat,
     Fetch,
     FileLoader,
     FullScreen,
+    radomBoolean,
     tokebabCase,
-    dateFormat,
     Type
     
 }
