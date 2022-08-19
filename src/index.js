@@ -4,6 +4,7 @@ import FileLoader from "./FileLoader"
 import FullScreen from "./FullScreen"
 
 import { tokebabCase } from "./String/index"
+import { dateFormat } from "./Date/index"
 
 export default {
 
@@ -11,6 +12,12 @@ export default {
     FileLoader,
     FullScreen,
     Type,
+
+    Date : {
+
+        format: dateFormat
+
+    },
 
     String : {
 
@@ -26,6 +33,7 @@ export {
     FileLoader,
     FullScreen,
     tokebabCase,
+    dateFormat,
     Type
     
 }
