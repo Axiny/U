@@ -15,10 +15,11 @@ export default {
     String : {
 
         tokebabCase
-        
+
     }
 
 }
+
 export {
 
     Fetch,

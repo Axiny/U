@@ -49,7 +49,7 @@ class FileLoader {
 
     async json ( url, options ) {
 
-        const str = await this.stringBlob (url, options);
+        const str = await this.stringBlob(url, options);
         const json = JSON.parse(str);
 
         return json;

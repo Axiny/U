@@ -251,6 +251,7 @@ class Fetch {
 }
 
 export default Fetch;
+
 export {
 
     Fetch,
