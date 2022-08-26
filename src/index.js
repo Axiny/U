@@ -6,6 +6,8 @@ import FullScreen from "./FullScreen"
 import radomBoolean from "./radomBoolean"
 
 import { tokebabCase } from "./String/index"
+
+import Date from "./Date"
 import { dateFormat } from "./Date/index"
 
 import WebGL from "./webgl"
@@ -21,11 +23,7 @@ export default {
 
     radomBoolean,
 
-    Date : {
-
-        format: dateFormat
-
-    },
+    Date,
 
     String : {
 
