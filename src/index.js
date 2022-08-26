@@ -8,6 +8,10 @@ import radomBoolean from "./radomBoolean"
 import { tokebabCase } from "./String/index"
 import { dateFormat } from "./Date/index"
 
+import WebGL from "./webgl"
+import { bufferDataLengthForOSM } from "./webgl"
+import { roadNetworkReaderForOSM } from "./webgl"
+
 export default {
 
     Fetch,
@@ -27,17 +31,21 @@ export default {
 
         tokebabCase
 
-    }
+    },
+
+    WebGL
 
 }
 
 export {
 
+    bufferDataLengthForOSM,
     dateFormat,
     Fetch,
     FileLoader,
     FullScreen,
     radomBoolean,
+    roadNetworkReaderForOSM,
     tokebabCase,
     Type
     
