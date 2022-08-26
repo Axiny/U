@@ -383,7 +383,7 @@ class FileLoader {
 
     async json ( url, options ) {
 
-        const str = await this.stringBlob (url, options);
+        const str = await this.stringBlob(url, options);
         const json = JSON.parse(str);
 
         return json;
@@ -429,13 +429,236 @@ class FullScreen {
 
 }
 
+/**
+ * radom create a boolean value
+ * 
+ * @returns {boolean}
+ * 
+ * @date 2020/6/4
+ * @author Axiny
+ */
+function radomBoolean () {
+
+    return Math.floor(Math.random() * 10) % 2 === 0;
+
+}
+
+/**
+ * camelCase to KebaCase
+ * 
+ * @param {string} str - camelCase string
+ *
+ * @returns {string}
+ * 
+ * @author Axiny
+ * @date 2022/8/19
+ */
+function toKebabCase ( str ) {
+
+    return str.replace(/[A-Z]/g, i => {
+
+        return '-' + i.toLowerCase();
+
+    });
+
+}
+
+var String = {
+
+    toKebabCase
+    
+};
+
+/**
+ * date format
+ * 
+ * @example
+ * const time = new Date();
+ * const format = "YYYY-MM-DD HH:MM:SS";
+ * const formatString = dateFormat(format, time);
+ * 
+ * console.log(formatString);   /// 2022-08-19 12:30:04
+ * 
+ * @param {string} format 
+ * @param {Date} date
+ *  
+ * @returns {string}
+ * 
+ * @date 2022/8/20
+ * @update Axiny
+ */
+function dateFormat ( format, date ) {
+
+    const opt = {
+
+        "Y+": date.getFullYear().toString(),        // year
+        "M+": (date.getMonth() + 1).toString(),     // mounth
+        "D+": date.getDate().toString(),            // day
+        "H+": date.getHours().toString(),           // hour
+        "M+": date.getMinutes().toString(),         // minute
+        "S+": date.getSeconds().toString()          // seconds
+
+    };
+
+    for (const k in opt) {
+
+        const ret = new RegExp("(" + k + ")").exec(format);
+
+        if (ret) {
+
+            format = format.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")));
+            
+        }
+
+    }
+
+    return format;
+
+}
+
+var Date = {
+
+    format : dateFormat
+    
+};
+
+/**
+ * create by bunkyo university
+ * 
+ * calculate geojson data vertex and indices array length
+ * 
+ * @param {*} GeoJson - geo json data
+ * @param {number} vertexLength - one vertex use the elements number
+ * 
+ * @returns { vertex: number, indices: number }
+ * 
+ * @author Axiny
+ * @date 2022/7/12
+ */
+function bufferDataLengthForOSM (GeoJson, vertexLength) {
+
+    const features = GeoJson.features;
+    let vertex = 0, indices = 0;
+
+    for (let i = 0; i < features.length; i++) {
+
+        const coordinates = features[i].geometry.coordinates;
+        let points = 0;
+
+        for (let j = 0; j < coordinates.length; j++) {
+
+            const len = coordinates[j].length;
+
+            vertex += vertexLength * len;
+            points += len;
+
+        }
+
+        indices += (points - 1) * 2;
+
+    }
+
+    return { vertex, indices };
+
+}
+
+/**
+ * create by bunkyo university
+ * 
+ * openstreetmap roads network data reader
+ * 
+ * https://download.geofabrik.de/asia/japan.html
+ * the data transfer use QGIS.exe
+ * origin data is *.dbf file
+ * 
+ * @param {GeoJSON} GeoJson - geo json data
+ * 
+ * @return { vertex : Float32Array<number>, indices : Array<number> }
+ * 
+ * @author Axiny
+ * @date 2022/7/4
+ */
+function roadNetworkReaderForOSM (GeoJson) {
+
+    const { crs, features, name, type } = GeoJson;
+
+    // vertex length is 2, beause the longitude and latitude data only
+    // if need altitude data please check the param "vertexLength" is 3
+    const Length = bufferDataLengthForOSM(GeoJson, 2);
+
+    // vertex data
+    const vertex = new Float32Array(Length.indices);
+    let vi = 0;
+
+    // indices data
+    const indices = new Array(Length.indices);
+    let ii = 0;
+    let iCount = 0;
+
+    for (let i = 0; i < features.length; i++) {
+
+        const feature = features[i];
+        const coordinates = feature.geometry.coordinates;
+        let pointLength = 0;
+
+        for (let j = 0; j < coordinates.length; j++) {
+
+            const coordinate = coordinates[j];
+
+            for (let k = 0; k < coordinate.length; k++) {
+
+                const point = coordinate[k];
+
+                vertex[vi++] = point[0];
+                vertex[vi++] = point[1];
+                // vertex[vi++] = 0;            // if need altitude please recode here
+
+            }
+
+            pointLength += coordinate.length;
+
+        }
+
+        // calculate the indices data
+        for (let i = 0; i < pointLength - 1; i++) {
+
+            indices[ii++] = iCount + i;
+            indices[ii++] = iCount + i + 1;
+    
+        }
+
+        iCount = iCount + pointLength;
+
+    }
+
+    return { vertex, indices }
+
+}
+
+var WebGL = {
+
+    Format : {
+
+        bufferDataLengthForOSM,
+        roadNetworkReaderForOSM
+
+    }
+
+};
+
 var index = {
 
     Fetch,
     FileLoader,
     FullScreen,
-    Type
+    Type,
+
+    radomBoolean,
+
+    Date,
+    String,
+    WebGL
 
 };
 
-export { Fetch, FileLoader, FullScreen, Type, index as default };
+export { Fetch, FileLoader, FullScreen, Type, bufferDataLengthForOSM, dateFormat, index as default, radomBoolean, roadNetworkReaderForOSM, toKebabCase };

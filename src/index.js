@@ -5,15 +5,15 @@ import FullScreen from "./FullScreen"
 
 import radomBoolean from "./radomBoolean"
 
-import String from "./String"
-import { tokebabCase } from "./String/index"
+import String from "./String/index"
+import { toKebabCase } from "./String/index"
 
-import Date from "./Date"
+import Date from "./Date/index"
 import { dateFormat } from "./Date/index"
 
-import WebGL from "./webgl"
-import { bufferDataLengthForOSM } from "./webgl"
-import { roadNetworkReaderForOSM } from "./webgl"
+import WebGL from "./webgl/index"
+import { bufferDataLengthForOSM } from "./webgl/index"
+import { roadNetworkReaderForOSM } from "./webgl/index"
 
 export default {
 
@@ -39,7 +39,7 @@ export {
     FullScreen,
     radomBoolean,
     roadNetworkReaderForOSM,
-    tokebabCase,
+    toKebabCase,
     Type
     
 }
