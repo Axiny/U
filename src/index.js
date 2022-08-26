@@ -5,6 +5,7 @@ import FullScreen from "./FullScreen"
 
 import radomBoolean from "./radomBoolean"
 
+import String from "./String"
 import { tokebabCase } from "./String/index"
 
 import Date from "./Date"
@@ -24,13 +25,7 @@ export default {
     radomBoolean,
 
     Date,
-
-    String : {
-
-        tokebabCase
-
-    },
-
+    String,
     WebGL
 
 }
