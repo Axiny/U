@@ -37,35 +37,69 @@ function roadNetworkReaderForOSM (GeoJson) {
 
         const feature = features[i];
         const coordinates = feature.geometry.coordinates;
+        const type = feature.geometry.type;
         let pointLength = 0;
 
-        for (let j = 0; j < coordinates.length; j++) {
+        switch ( type ) {
 
-            const coordinate = coordinates[j];
+            case 'MultiLineString' : {
 
-            for (let k = 0; k < coordinate.length; k++) {
+                for (let j = 0; j < coordinates.length; j++) {
 
-                const point = coordinate[k];
+                    const coordinate = coordinates[j];
+        
+                    for (let k = 0; k < coordinate.length; k++) {
+        
+                        const point = coordinate[k];
+        
+                        vertex[vi++] = point[0];
+                        vertex[vi++] = point[1];
+                        // vertex[vi++] = 0;            // if need altitude please recode here
+        
+                    }
+        
+                    pointLength += coordinate.length;
+        
+                }
+        
+                // calculate the indices data
+                for (let i = 0; i < pointLength - 1; i++) {
+        
+                    indices[ii++] = iCount + i;
+                    indices[ii++] = iCount + i + 1;
+            
+                }
+        
+                iCount = iCount + pointLength;
 
-                vertex[vi++] = point[0];
-                vertex[vi++] = point[1];
-                // vertex[vi++] = 0;            // if need altitude please recode here
+                break;
 
             }
 
-            pointLength += coordinate.length;
+            case 'Point':
+            case 'LineString' : {
+
+                for (let j = 0; j < coordinates.length; j++) {
+
+                    const point = coordinates[j];
+
+                    vertex[vi++] = point[0];
+                    vertex[vi++] = point[1];
+
+                }
+
+                pointLength += coordinates.length;
+
+            }
+
+            default : {
+
+                throw new Error ('[roadNetworkReaderForOSM]: the feature.geometry.type is not supported, please use the "MultiLineString" or "LineString" and try again.');
+
+            }
 
         }
 
-        // calculate the indices data
-        for (let i = 0; i < pointLength - 1; i++) {
-
-            indices[ii++] = iCount + i;
-            indices[ii++] = iCount + i + 1;
-    
-        }
-
-        iCount = iCount + pointLength;
 
     }
 
